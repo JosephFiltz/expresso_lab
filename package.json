@@ -1,0 +1,33 @@
+{
+  "name": "expresso_lab",
+  "version": "1.0.0",
+  "description": "A coffee ecommerce store utilizing the MERN stack",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JosephFiltz/expresso_lab.git"
+  },
+  "author": "Joseph Filtz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JosephFiltz/expresso_lab/issues"
+  },
+  "homepage": "https://github.com/JosephFiltz/expresso_lab#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
