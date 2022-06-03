@@ -1,5 +1,7 @@
 //react routing handler
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 //import components
 import Header from './components/Header'
 //import pages
@@ -18,6 +20,7 @@ function App() {
           <Route path='/register' element={<Register />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </>
   )
 }

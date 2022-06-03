@@ -1,4 +1,10 @@
 import { useState, useEffect } from 'react'
+//useSelector: select from state eg. user, isLoading
+//useDispatch: dispatch an action/function
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { register, reset } from '../features/authentication/authSlice'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +17,29 @@ const Register = () => {
 
   const { name, email, password, password2 } = formData
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  //select desired parts of auth state
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+
+  useEffect(() => {
+    //fire error message if {isError = true} gotten from state
+    if (isError) {
+      toast.error(message)
+    }
+
+    //redirect home if successful registration
+    if (isSuccess || user) {
+      navigate('/')
+    }
+
+    //reset state
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
   //allow typing into forms
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -22,6 +51,20 @@ const Register = () => {
   //form submission
   const onSubmit = (e) => {
     e.preventDefault()
+
+    //password authentication
+    if (password !== password2) {
+      toast.error('Passwords do not match')
+    } else {
+      //register user
+      const userData = {
+        name,
+        email,
+        password,
+      }
+
+      dispatch(register(userData))
+    }
   }
 
   return (
