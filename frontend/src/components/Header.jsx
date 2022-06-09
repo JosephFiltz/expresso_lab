@@ -34,11 +34,19 @@ const Header = () => {
               <AiOutlineMenu size={25}></AiOutlineMenu>
             </btn>
           </div>
+          <btn
+            onClick={toggleNav}
+            className={
+              nav
+                ? 'fixed top-0 bottom-0 left-0 right-0 h-full w-full bg-dark opacity-50'
+                : ''
+            }
+          ></btn>
           <div
             className={
               nav
                 ? 'flex flex-col fixed left-0 top-0 w-[75%] h-full ease-in-out duration-300 border-r-2 border-r-white bg-dark text-white'
-                : 'fixed left-[-100%] ease-out duration-300'
+                : 'fixed left-[-75%] ease-out duration-300'
             }
           >
             <btn onClick={toggleNav} className='p-8'>
