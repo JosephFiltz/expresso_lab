@@ -13,6 +13,9 @@ module.exports = {
       logo: 'JetBrains Mono',
       montserrat: ['Montserrat', 'sans-serif'],
     },
+    backgroundImage: {
+      hero: "url('img/hero.jpg')",
+    },
   },
   plugins: [],
 }

@@ -55,35 +55,45 @@ const Login = () => {
   }
 
   return (
-    <>
-      <section>
-        <h1>Login</h1>
-      </section>
+    <div className='md:px-8'>
+      <div className='mt-4 mx-auto bg-white text-dark md:rounded-xl max-w-[1280px]'>
+        <section className='font-logo font-bold italic text-4xl p-4 pb-8'>
+          <h1>Login</h1>
+        </section>
 
-      <section>
-        <form onSubmit={onSubmit}>
-          <input
-            type='email'
-            id='email'
-            name='email'
-            value={email}
-            placeholder='Enter email'
-            onChange={onChange}
-          />
-          <input
-            type='password'
-            id='password'
-            name='password'
-            value={password}
-            placeholder='Enter password'
-            onChange={onChange}
-          />
-          <button type='submit' className='btn btn-block'>
-            Submit
-          </button>
-        </form>
-      </section>
-    </>
+        <section>
+          <form
+            onSubmit={onSubmit}
+            className='flex flex-col justify-center items-center'
+          >
+            <input
+              className='border-b mb-4 w-[50%]'
+              type='email'
+              id='email'
+              name='email'
+              value={email}
+              placeholder='Enter email'
+              onChange={onChange}
+            />
+            <input
+              className='border-b w-[50%]'
+              type='password'
+              id='password'
+              name='password'
+              value={password}
+              placeholder='Enter password'
+              onChange={onChange}
+            />
+            <button
+              type='submit'
+              className='my-8 py-2 w-36 rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
+            >
+              Login
+            </button>
+          </form>
+        </section>
+      </div>
+    </div>
   )
 }
 export default Login

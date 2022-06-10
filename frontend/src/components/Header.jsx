@@ -26,10 +26,10 @@ const Header = () => {
   }
 
   return (
-    <header className='text-dark flex justify-between items-center h-24 px-6 mx-auto max-w-[1280px]'>
+    <header className='text-dark flex justify-between items-center h-24 px-8 mx-auto max-w-[1280px]'>
       <div className='flex items-center'>
         <div className='md:hidden'>
-          <div className='pr-6'>
+          <div className='pr-8'>
             <btn onClick={toggleNav}>
               <AiOutlineMenu size={25}></AiOutlineMenu>
             </btn>
@@ -52,7 +52,7 @@ const Header = () => {
             <btn onClick={toggleNav} className='p-8'>
               <AiOutlineMenu size={25}></AiOutlineMenu>
             </btn>
-            <ul className='pt-20 text-xl p-4'>
+            <ul className='pt-20 text-xl p-4 '>
               <li className='p-4 border-b border-b-white'>hello</li>
               <li className='p-4 border-b border-b-white'>hello</li>
               <li className='p-4 border-b border-b-white'>hello</li>
