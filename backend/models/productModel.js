@@ -39,23 +39,23 @@ const productSchema = mongoose.Schema(
       required: false,
       default: 0,
     },
-    tasting_notes: [
+    tastingNotes: [
       {
         type: String,
         required: true,
       },
     ],
-    roast_level: {
+    roastLevel: {
       type: String,
       required: true,
     },
-    coffee_process: [
+    coffeeProcess: [
       {
         type: String,
         required: true,
       },
     ],
-    coffee_origin: [
+    coffeeOrigin: [
       {
         type: String,
         required: false,
@@ -67,7 +67,7 @@ const productSchema = mongoose.Schema(
         required: true,
       },
     ],
-    stock_ounces: {
+    stockOunces: {
       type: Number,
       required: true,
     },
