@@ -63,12 +63,12 @@ const Header = () => {
         </div>
         <Link
           to='/'
-          className='whitespace-nowrap text-4xl font-logo font-bold italic'
+          className='whitespace-nowrap text-2xl md:text-4xl font-logo font-bold italic'
         >
           expresso_lab
         </Link>
       </div>
-      <ul className='flex text-xl font-montserrat'>
+      <ul className='flex text-md md:text-xl font-montserrat'>
         {/*user logged in*/}
         {user ? (
           <li>
@@ -79,7 +79,7 @@ const Header = () => {
           </li>
         ) : (
           <>
-            {/*user not in*/}
+            {/*user not logged in*/}
             <li>
               <Link
                 to='/login'

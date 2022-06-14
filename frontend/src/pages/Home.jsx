@@ -1,7 +1,7 @@
 const Home = () => {
   return (
-    <div className='mt-4'>
-      <div className=' font-montserrat bg-hero bg-center bg-cover text-white h-96 md:mx-8 md:rounded-xl flex flex-col text-center justify-center '>
+    <div className='mt-4 max-w-[1280px] mx-auto '>
+      <div className=' font-montserrat bg-hero bg-center bg-cover text-white h-96 md:mx-8 md:rounded-xl flex flex-col text-center justify-center  '>
         <h1 className='md:text-5xl sm:text-4xl text-3xl font-bold'>
           Buy My Coffee
         </h1>

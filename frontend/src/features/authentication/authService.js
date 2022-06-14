@@ -27,7 +27,7 @@ const login = async (userData) => {
   return response.data
 }
 
-//logout user
+//logout user, removing JWT token
 const logout = async () => {
   localStorage.removeItem('user')
 }
