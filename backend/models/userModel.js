@@ -1,5 +1,36 @@
 import mongoose from 'mongoose'
 
+const userAddressSchema = mongoose.Schema({
+  label: {
+    type: String,
+    required: true,
+  },
+  address1: {
+    type: String,
+    required: true,
+  },
+  address2: {
+    type: String,
+    required: false,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  postalCode: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: Number,
+    required: false,
+  },
+})
+
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -15,6 +46,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add password'],
     },
+    addresses: [{ type: userAddressSchema, required: false }],
     isAdmin: {
       type: String,
       required: true,
