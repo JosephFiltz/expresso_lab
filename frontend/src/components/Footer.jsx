@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <div className='mx-auto mt-[4rem] sticky top-full -z-50 md:z-auto'>
       <div className='bg-dark text-white font-montserrat'>
-        <div className='p-8 bg-dark text-white grid md:grid-cols-2 gap-2'>
+        <div className='p-8 bg-dark text-white grid md:grid-cols-2 gap-2 mx-auto max-w-[1280px]'>
           <div>
             <h1 className='text-3xl font-logo font-bold italic'>
               expresso_lab

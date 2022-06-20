@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const { ObjectId } = Schema.Types
+const { ObjectId } = mongoose.Schema.Types
 
 const productSchema = mongoose.Schema(
   {
@@ -8,12 +8,13 @@ const productSchema = mongoose.Schema(
       type: ObjectId,
       ref: 'User',
       required: false,
+      default: null,
     },
     name: {
       type: String,
       required: true,
     },
-    images: [
+    image: [
       {
         type: String,
         required: true,
@@ -23,53 +24,58 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    brand: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
     },
-    price: [
-      {
-        type: Number,
-        required: true,
-      },
-    ],
+    price: {
+      type: Number,
+      required: true,
+    },
     //final price: price * (1 - discount)
     discount: {
       type: Number,
-      required: false,
+      required: true,
       default: 0,
     },
     tastingNotes: [
       {
         type: String,
-        required: true,
+        required: false,
+        default: null,
       },
     ],
     roastLevel: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
     },
     coffeeProcess: [
       {
         type: String,
-        required: true,
+        required: false,
+        default: null,
       },
     ],
     coffeeOrigin: [
       {
         type: String,
         required: false,
+        default: null,
       },
     ],
-    size: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-    stockOunces: {
+    size: {
+      type: String,
+      required: true,
+    },
+    stock: {
       type: Number,
       required: true,
+      default: 0,
     },
   },
   {

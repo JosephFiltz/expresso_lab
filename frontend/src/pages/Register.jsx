@@ -68,8 +68,8 @@ const Register = () => {
   }
 
   return (
-    <div className='md:px-8'>
-      <div className='mt-4 mx-auto bg-white text-dark md:rounded-xl max-w-[1280px]'>
+    <div className='md:mx-8'>
+      <div className='md:mx-auto mt-4 mx-auto bg-white text-dark md:rounded-xl max-w-[1280px]'>
         <section className='font-logo font-bold italic text-4xl p-4 pb-8'>
           <h1>Create an account</h1>
         </section>

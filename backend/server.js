@@ -8,7 +8,8 @@ import colors from 'colors'
 import connectDB from './config/database.js'
 
 //import routes
-import router from './routes/userRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import productRoutes from './routes/productRoutes.js'
 
 //add environment variables and define port number
 dotenv.config()
@@ -25,7 +26,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 //add routes
-app.use('/api/users', router)
+app.use('/api/users', userRoutes)
+app.use('/api/products', productRoutes)
 
 //start server and listen for connections
 app.listen(port, () =>

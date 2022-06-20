@@ -4,6 +4,14 @@ import authService from './authService'
 //get user
 const user = JSON.parse(localStorage.getItem('user'))
 
+const initialState = {
+  user: user ? user : null,
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
+  message: '',
+}
+
 //register user
 export const register = createAsyncThunk(
   'auth/register',
@@ -41,14 +49,6 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout()
 })
-
-const initialState = {
-  user: user ? user : null,
-  isError: false,
-  isSuccess: false,
-  isLoading: false,
-  message: '',
-}
 
 //create slice containing reducer logic and actions
 export const authSlice = createSlice({
