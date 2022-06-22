@@ -50,7 +50,7 @@ export const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    resetProduct: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -85,6 +85,6 @@ export const productSlice = createSlice({
   },
 })
 
-export const { reset } = productSlice.actions
+export const { resetProduct } = productSlice.actions
 
 export default productSlice.reducer

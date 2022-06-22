@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getProducts, reset } from '../features/products/productSlice'
+import { getProducts, resetProduct } from '../features/products/productSlice'
 import ProductCard from './ProductCard'
 
 const FeaturedProducts = () => {
@@ -16,7 +16,7 @@ const FeaturedProducts = () => {
     dispatch(getProducts())
 
     return () => {
-      dispatch(reset())
+      dispatch(resetProduct())
     }
   }, [isError, message, dispatch])
 

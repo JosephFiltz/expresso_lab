@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { login, reset } from '../features/authentication/authSlice'
+import { login, resetAuth } from '../features/authentication/authSlice'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ const Login = () => {
     }
 
     //reset state
-    dispatch(reset())
+    dispatch(resetAuth())
   }, [user, isError, isSuccess, message, navigate, dispatch])
 
   //allow typing into forms

@@ -1,11 +1,15 @@
-import { useEffect, Component } from 'react'
+import { useState, useEffect, Component } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getProduct, reset } from '../features/products/productSlice'
+import { getProduct, resetProduct } from '../features/products/productSlice'
+import { addToCart } from '../features/cart/cartSlice'
 
-const ProductPage = () => {
+const ProductPage = (history) => {
   const dispatch = useDispatch()
   const params = useParams()
+
+  //add to cart quantity state
+  const [quantity, setQuantity] = useState(1)
 
   const { product, isError, message } = useSelector((state) => state.products)
 
@@ -24,9 +28,18 @@ const ProductPage = () => {
     dispatch(getProduct(params.id))
 
     return () => {
-      dispatch(reset())
+      dispatch(resetProduct())
     }
   }, [isError, message, dispatch])
+
+  const addToCartHandler = () => {
+    const data = {
+      id: params.id,
+      quantity: quantity,
+    }
+
+    dispatch(addToCart(data))
+  }
 
   return (
     <div className='md:mx-8'>
@@ -67,8 +80,25 @@ const ProductPage = () => {
             </div>
 
             {/*add to cart functionality*/}
-            <div className='flex justify-center'>
-              <button className='my-8 py-2 w-[50%] rounded-md bg-dark border-dark border text-white font-bold text-lg hover:bg-white hover:text-dark ease-in-out duration-300'>
+            <div className='flex justify-center items-center gap-2'>
+              <form
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              >
+                <select className=''>
+                  {[...Array(product.stock).keys()].map((qty) => (
+                    <option key={qty + 1} value={qty + 1}>
+                      {qty + 1}
+                    </option>
+                  ))}
+                </select>
+              </form>
+
+              <button
+                onClick={addToCartHandler}
+                type='button'
+                className='my-8 py-2 w-[50%] rounded-md bg-dark border-dark border text-white font-bold text-lg hover:bg-white hover:text-dark ease-in-out duration-300'
+              >
                 ADD TO CART
               </button>
             </div>
