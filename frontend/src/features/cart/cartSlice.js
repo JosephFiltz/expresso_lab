@@ -45,6 +45,9 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     resetCart: (state) => initialState,
+    deleteFromCart: (state, action) => {
+      state.items = state.items.filter((x) => x.id !== action.payload)
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -78,6 +81,6 @@ export const cartSlice = createSlice({
   },
 })
 
-export const { resetCart } = cartSlice.actions
+export const { resetCart, deleteFromCart } = cartSlice.actions
 
 export default cartSlice.reducer

@@ -12,6 +12,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ProductPage from './pages/ProductPage'
+import Cart from './pages/Cart'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/products/:id' element={<ProductPage />} />
+              <Route path='/cart' element={<Cart />} />
             </Routes>
             <Footer />
           </ScrollToTop>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { GoSignIn, GoSignOut } from 'react-icons/go'
 import { FaRegUser } from 'react-icons/fa'
-import { AiOutlineMenu } from 'react-icons/ai'
+import { AiOutlineMenu, AiOutlineShopping } from 'react-icons/ai'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, resetAuth } from '../features/authentication/authSlice'
 
@@ -29,19 +29,21 @@ const Header = () => {
     <header className='text-dark flex justify-between items-center h-24 px-8 mx-auto max-w-[1280px]'>
       <div className='flex items-center'>
         <div className='md:hidden'>
-          <div className='pr-8'>
-            <btn onClick={toggleNav}>
+          <div className='pr-8 flex items-center'>
+            <button onClick={toggleNav}>
               <AiOutlineMenu size={25}></AiOutlineMenu>
-            </btn>
+            </button>
           </div>
-          <btn
+          {/*grayed out nav background*/}
+          <span
             onClick={toggleNav}
             className={
               nav
                 ? 'fixed top-0 bottom-0 left-0 right-0 h-full w-full bg-dark opacity-50'
                 : ''
             }
-          ></btn>
+          />
+          {/*navbar*/}
           <div
             className={
               nav
@@ -49,9 +51,9 @@ const Header = () => {
                 : 'fixed left-[-75%] ease-out duration-300'
             }
           >
-            <btn onClick={toggleNav} className='p-8'>
+            <button onClick={toggleNav} className='p-8'>
               <AiOutlineMenu size={25}></AiOutlineMenu>
-            </btn>
+            </button>
             <ul className='pt-20 text-xl p-4 '>
               <li className='p-4 border-b border-b-white'>hello</li>
               <li className='p-4 border-b border-b-white'>hello</li>
@@ -71,12 +73,26 @@ const Header = () => {
       <ul className='flex text-md md:text-xl font-montserrat'>
         {/*user logged in*/}
         {user ? (
-          <li>
-            <button onClick={onLogout}>
-              <GoSignOut />
-              Logout
-            </button>
-          </li>
+          <>
+            <li>
+              <Link
+                to='/cart'
+                className='flex items-center p-4 gap-1 ease-in-out duration-200 hover:text-gray-dark'
+              >
+                <AiOutlineShopping size={25} />
+                Cart
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={onLogout}
+                className='flex items-center p-4 gap-1 ease-in-out duration-200 hover:text-gray-dark'
+              >
+                <GoSignOut size={25} />
+                Logout
+              </button>
+            </li>
+          </>
         ) : (
           <>
             {/*user not logged in*/}

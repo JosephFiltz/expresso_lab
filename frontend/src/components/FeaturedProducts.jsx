@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { getProducts, resetProduct } from '../features/products/productSlice'
 import ProductCard from './ProductCard'
@@ -10,7 +11,7 @@ const FeaturedProducts = () => {
 
   useEffect(() => {
     if (isError) {
-      console.log(message)
+      toast.error(message)
     }
 
     dispatch(getProducts())

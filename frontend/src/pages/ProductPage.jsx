@@ -1,4 +1,5 @@
 import { useState, useEffect, Component } from 'react'
+import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getProduct, resetProduct } from '../features/products/productSlice'
@@ -21,7 +22,7 @@ const ProductPage = (history) => {
 
   useEffect(() => {
     if (isError) {
-      console.log(message)
+      toast.error(message)
     }
 
     //get product by id from url
@@ -95,8 +96,8 @@ const ProductPage = (history) => {
               </form>
 
               <button
-                onClick={addToCartHandler}
                 type='button'
+                onClick={addToCartHandler}
                 className='my-8 py-2 w-[50%] rounded-md bg-dark border-dark border text-white font-bold text-lg hover:bg-white hover:text-dark ease-in-out duration-300'
               >
                 ADD TO CART
