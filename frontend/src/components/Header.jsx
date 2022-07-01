@@ -70,7 +70,7 @@ const Header = () => {
           expresso_lab
         </Link>
       </div>
-      <ul className='flex text-md md:text-xl font-montserrat'>
+      <ul className='flex justify-center items-center text-md md:text-xl font-montserrat'>
         {/*user logged in*/}
         {user ? (
           <>

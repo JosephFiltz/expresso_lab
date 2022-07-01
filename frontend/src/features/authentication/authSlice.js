@@ -6,6 +6,7 @@ const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
   user: user ? user : null,
+  addresses: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -50,6 +51,44 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout()
 })
 
+//add user address
+export const setAddress = createAsyncThunk(
+  'auth/setAddress',
+  async (data, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await authService.setAddress(data, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+//get user addresses
+export const getAddresses = createAsyncThunk(
+  'auth/getAddresses',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await authService.getAddresses(token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 //create slice containing reducer logic and actions
 export const authSlice = createSlice({
   name: 'auth',
@@ -61,6 +100,9 @@ export const authSlice = createSlice({
       state.isError = false
       state.isSuccess = false
       state.message = ''
+    },
+    resetAddress: (state) => {
+      state.addresses = []
     },
   },
   //async thunk functions go here
@@ -104,10 +146,35 @@ export const authSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.user = null
       })
+      .addCase(setAddress.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(setAddress.fulfilled, (state) => {
+        state.isLoading = false
+        state.isSuccess = true
+      })
+      .addCase(setAddress.rejected, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = false
+        state.message = action.payload
+      })
+      .addCase(getAddresses.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getAddresses.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.addresses = action.payload
+      })
+      .addCase(getAddresses.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
   },
 })
 
 //export slice functions(actions)
-export const { resetAuth } = authSlice.actions
+export const { resetAuth, resetAddress } = authSlice.actions
 
 export default authSlice.reducer

@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import { FiDelete } from 'react-icons/fi'
 import { deleteFromCart } from '../features/cart/cartSlice'
 
-const CartCard = ({ item }) => {
+const CartCard = ({ item, showDelete }) => {
   const dispatch = useDispatch()
 
   const deleteItem = () => {
@@ -11,7 +11,7 @@ const CartCard = ({ item }) => {
 
   return (
     <div className='flex justify-between items-center border-b-2 border-dark'>
-      <div className='h-20 flex items-center gap-2 w-[38%]'>
+      <div className='h-20 flex items-center gap-2 w-[50%]'>
         <img
           src={item.image}
           alt='no image'
@@ -20,12 +20,17 @@ const CartCard = ({ item }) => {
         <div>{item.name}</div>
       </div>
 
-      <div className='w-[20%]'>${item.price}</div>
-      <div className='w-[20%]'>{item.qty}</div>
-      <div className='w-[20%]'>${item.price * item.qty}</div>
-      <button type='button' onClick={deleteItem} className='w-[2%]'>
-        <FiDelete size={25} />
-      </button>
+      <div className='w-[15%]'>${item.price}</div>
+      <div className='w-[18%]'>{item.qty}</div>
+      <div className='w-[15%]'>
+        ${(Math.round(item.price * item.qty * 100) / 100).toFixed(2)}
+      </div>
+
+      {showDelete ? (
+        <button type='button' onClick={deleteItem} className='w-[2%]'>
+          <FiDelete size={25} />
+        </button>
+      ) : null}
     </div>
   )
 }

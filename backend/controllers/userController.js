@@ -79,9 +79,52 @@ const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user)
 })
 
+//desc    setuser address
+//route   POST /api/user/setAddress
+//access  private
+const setAddress = asyncHandler(async (req, res) => {
+  const { label, address1, address2, city, postalCode, country, phone } =
+    req.body
+
+  if (!label || !address1 || !city || !postalCode || !country) {
+    res.status(400)
+    throw new Error('Please add all required fields')
+  }
+
+  const user = await User.findOne({ user: req.user.email })
+
+  if (user) {
+    user.addresses.push({
+      label,
+      address1,
+      address2,
+      city,
+      postalCode,
+      country,
+      phone,
+    })
+
+    await user.save()
+
+    res.status(201).json(user.id)
+  } else {
+    res.status(400)
+    throw new Error('Invalid')
+  }
+})
+
+//desc    get user addresses
+//route   GET /api/user/getAddresses
+//access  private
+const getAddresses = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ user: req.user.email })
+
+  res.status(200).json(user.addresses)
+})
+
 //generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' })
 }
 
-export { registerUser, loginUser, getMe }
+export { registerUser, loginUser, getMe, setAddress, getAddresses }

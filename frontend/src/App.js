@@ -13,6 +13,10 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
+import AddressSelection from './pages/AddressSelection'
+import AddressCreation from './pages/AddressCreation'
+import Payment from './pages/Payment'
+import Checkout from './pages/Checkout'
 
 function App() {
   return (
@@ -28,6 +32,10 @@ function App() {
               <Route path='/register' element={<Register />} />
               <Route path='/products/:id' element={<ProductPage />} />
               <Route path='/cart' element={<Cart />} />
+              <Route path='/addressSelection' element={<AddressSelection />} />
+              <Route path='/addressCreation' element={<AddressCreation />} />
+              <Route path='/payment' element={<Payment />} />
+              <Route path='/checkout' element={<Checkout />} />
             </Routes>
             <Footer />
           </ScrollToTop>

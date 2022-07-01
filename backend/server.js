@@ -10,6 +10,7 @@ import connectDB from './config/database.js'
 //import routes
 import userRoutes from './routes/userRoutes.js'
 import productRoutes from './routes/productRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 
 //add environment variables and define port number
 dotenv.config()
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: false }))
 //add routes
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
+app.use('/api/orders', orderRoutes)
 
 //start server and listen for connections
 app.listen(port, () =>

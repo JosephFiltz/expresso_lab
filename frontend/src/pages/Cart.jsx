@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
-import { getProducts, resetProduct } from '../features/products/productSlice'
-import ProductCard from '../components/ProductCard'
 import CartCard from '../components/CartCard'
-import { resetCart } from '../features/cart/cartSlice'
+import { resetCart, resetCartParams } from '../features/cart/cartSlice'
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -15,7 +14,11 @@ const Cart = () => {
     if (isError) {
       toast.error(message)
     }
-  }, [isError, message])
+
+    return () => {
+      dispatch(resetCartParams())
+    }
+  }, [isError, message, dispatch])
 
   const DeleteCart = () => {
     dispatch(resetCart())
@@ -29,25 +32,35 @@ const Cart = () => {
         {items.length > 0 ? (
           <div>
             <div className='mx-8 mb-2 flex justify-between items-center font-bold text-lg'>
-              <h3 className='w-[38%]'>product</h3>
-              <h3 className='w-[20%]'>price</h3>
-              <h3 className='w-[20%]'>quantity</h3>
-              <h3 className='w-[20%]'>subtotal</h3>
+              <h3 className='w-[50%]'>product</h3>
+              <h3 className='w-[15%]'>price</h3>
+              <h3 className='w-[18%]'>quantity</h3>
+              <h3 className='w-[15%]'>subtotal</h3>
               <div className='w-[2%]' />
             </div>
             <div className='mx-8 flex flex-col'>
               {items.map((item) => (
-                <CartCard key={item.id} item={item} />
+                <CartCard key={item.id} item={item} showDelete />
               ))}
             </div>
-            <ul className='flex justify-center items-center'>
-              <button
-                type='button'
-                onClick={DeleteCart}
-                className='my-8 py-2 w-36 rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
-              >
-                Delete Cart
-              </button>
+            <ul className='flex justify-center items-center gap-8'>
+              <li>
+                <button
+                  type='button'
+                  onClick={DeleteCart}
+                  className='my-8 py-2 w-36 rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
+                >
+                  Delete Cart
+                </button>
+              </li>
+              <li>
+                <Link
+                  to='/addressSelection'
+                  className='my-8 py-2 px-6 w-auto rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
+                >
+                  Proceed to Checkout
+                </Link>
+              </li>
             </ul>
           </div>
         ) : (
