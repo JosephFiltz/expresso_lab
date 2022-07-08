@@ -21,6 +21,7 @@ const Checkout = () => {
   dispatch(setTaxPrice())
   dispatch(setTotalPrice())
 
+  const { user } = useSelector((state) => state.auth)
   const {
     items,
     address,
@@ -38,13 +39,29 @@ const Checkout = () => {
       toast.error(message)
     }
 
+    if (!user) {
+      navigate('/')
+    }
+
+    if (!items.length) {
+      navigate('/cart')
+    }
+
+    if (!Object.keys(address).length) {
+      navigate('/addressSelection')
+    }
+
+    if (!payment) {
+      navigate('/payment')
+    }
+
     if (isSuccess) {
       dispatch(resetCart())
       navigate('/')
     }
 
     dispatch(resetOrder())
-  }, [isError, isSuccess, message, dispatch, navigate])
+  }, [user, isError, isSuccess, message, dispatch, navigate])
 
   const checkoutOrderHandler = () => {
     const data = {

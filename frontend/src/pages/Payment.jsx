@@ -11,7 +11,8 @@ const Payment = () => {
 
   const [paymentMethod, setPaymentMethod] = useState('')
 
-  const { payment, isSuccess, isError, message } = useSelector(
+  const { user } = useSelector((state) => state.auth)
+  const { items, address, isSuccess, isError, message } = useSelector(
     (state) => state.cart
   )
 
@@ -20,12 +21,26 @@ const Payment = () => {
       toast.error(message)
     }
 
+    if (!user) {
+      navigate('/')
+    }
+
+    if (!items.length) {
+      navigate('/cart')
+    }
+
+    if (!Object.keys(address).length) {
+      navigate('/addressSelection')
+    }
+
     if (isSuccess) {
       navigate('/checkout')
     }
 
-    dispatch(resetCartParams())
-  }, [isError, isSuccess, message, dispatch, navigate])
+    return () => {
+      dispatch(resetCartParams())
+    }
+  }, [user, address, isError, isSuccess, message, dispatch, navigate])
 
   const onChange = (e) => {
     setPaymentMethod(e.target.value)

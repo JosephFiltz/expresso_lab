@@ -8,6 +8,7 @@ const AddressCreation = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const { user } = useSelector((state) => state.auth)
   const [formData, setFormData] = useState({
     label: '',
     address1: '',
@@ -24,13 +25,17 @@ const AddressCreation = () => {
   const { isError, isSuccess, message } = useSelector((state) => state.auth)
 
   useEffect(() => {
-    //fire error message if {isError = true} gotten from state
     if (isError) {
       toast.error(message)
     }
 
+    if (!user) {
+      navigate('/')
+    }
+
     if (isSuccess) {
-      navigate('/checkout')
+      dispatch(resetAuth())
+      navigate('/addressSelection')
     }
 
     return () => {

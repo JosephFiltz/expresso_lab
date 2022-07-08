@@ -11,12 +11,17 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import UserDetails from './pages/UserDetails'
 import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
 import AddressSelection from './pages/AddressSelection'
 import AddressCreation from './pages/AddressCreation'
 import Payment from './pages/Payment'
 import Checkout from './pages/Checkout'
+import OrderDetails from './pages/OrderDetails'
+import UserOrders from './pages/UserOrders'
+import AdminUserList from './pages/AdminUserList'
+import AdminUserDetails from './pages/AdminUserDetails'
 
 function App() {
   return (
@@ -30,12 +35,17 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
+              <Route path='/user' element={<UserDetails />} />
               <Route path='/products/:id' element={<ProductPage />} />
               <Route path='/cart' element={<Cart />} />
               <Route path='/addressSelection' element={<AddressSelection />} />
               <Route path='/addressCreation' element={<AddressCreation />} />
               <Route path='/payment' element={<Payment />} />
               <Route path='/checkout' element={<Checkout />} />
+              <Route path='/orders/:id' element={<OrderDetails />} />
+              <Route path='/orders/userOrders' element={<UserOrders />} />
+              <Route path='/admin/users' element={<AdminUserList />} />
+              <Route path='/admin/users/:id' element={<AdminUserDetails />} />
             </Routes>
             <Footer />
           </ScrollToTop>

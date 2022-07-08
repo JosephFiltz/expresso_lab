@@ -48,4 +48,91 @@ const setOrder = asyncHandler(async (req, res) => {
   }
 })
 
-export { setOrder }
+//desc    get all orders of logged in user
+//route   GET /api/orders/userOrders
+//access  private
+const getUserOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id }).sort({
+    createdAt: -1,
+  })
+
+  res.status(200).json(orders)
+})
+
+//desc    get all orders of user by id
+//route   GET /api/orders/userOrders/:id
+//access  private admin
+const getUserIdOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.params.id }).sort({
+    createdAt: -1,
+  })
+
+  res.status(200).json(orders)
+})
+
+//desc    get one order
+//route   GET /api/orders/:id
+//access  private
+const getOrder = asyncHandler(async (req, res) => {
+  //grab order by matching _id
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'name email'
+  )
+
+  if (order) {
+    res.status(200).json(order)
+  } else {
+    res.status(404)
+    throw new error('Order not found')
+  }
+})
+
+//desc    set order to paid
+//route   PUT /api/orders/:id/pay
+//access  private
+const setOrderPaid = asyncHandler(async (req, res) => {
+  //grab order by matching _id
+  const order = await Order.findById(req.params.id)
+
+  if (order) {
+    order.isPaid = true
+    order.paidDate = Date.now()
+
+    const savedOrder = await order.save()
+
+    res.json(savedOrder)
+  } else {
+    res.status(404)
+    throw new error('Order not found')
+  }
+})
+
+//desc    set order to delivered
+//route   PUT /api/orders/:id/delivered
+//access  private
+const setOrderDelivered = asyncHandler(async (req, res) => {
+  //grab order by matching _id
+  const order = await Order.findById(req.params.id)
+
+  if (order) {
+    order.isDelivered = true
+    order.deliveredDate = Date.now()
+
+    const savedOrder = await order.save()
+
+    res.json(savedOrder)
+  } else {
+    res.status(404)
+    throw new error('Order not found')
+  }
+})
+
+export {
+  setOrder,
+  getUserOrders,
+  getUserIdOrders,
+  getOrder,
+  setOrderPaid,
+  setOrderDelivered,
+}

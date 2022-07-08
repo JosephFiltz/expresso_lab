@@ -7,7 +7,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 
 //desc    register new user
-//route   POST /api/user
+//route   POST /api/users
 //access  public
 const registerUser = asyncHandler(async (req, res) => {
   //destructure variables from form
@@ -41,16 +41,83 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     })
   } else {
     res.status(400)
-    throw new Error('Invalid user data')
+    throw new Error('Invalid, user not found')
+  }
+})
+
+//desc    get a user
+//route   GET /api/users/:id
+//access  private admin
+const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+  res.status(200).json(user)
+})
+
+//desc    get users
+//route   GET /api/users
+//access  private admin
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}).sort({ isAdmin: -1, createdAt: 1 })
+  res.status(200).json(users)
+})
+
+//desc    edit user
+//route   PUT /api/users
+//access  private
+const editUser = asyncHandler(async (req, res) => {
+  const { username, email, password, passwordOld } = req.body
+
+  const user = await User.findById(req.user._id)
+
+  if (user && (await bcrypt.compare(passwordOld, user.password))) {
+    user.name = username || user.name
+    user.email = email || user.email
+
+    const salt = await bcrypt.genSalt()
+    const hashedPassword = await bcrypt.hash(password, salt)
+    user.password = hashedPassword || user.password
+
+    const savedUser = await user.save()
+
+    res.status(200).json({
+      _id: savedUser.id,
+      name: savedUser.name,
+      email: savedUser.email,
+      isAdmin: savedUser.isAdmin,
+      token: generateToken(savedUser._id),
+    })
+  } else if (!user) {
+    res.status(404).json({ message: 'Invalid, user not found' })
+    throw new Error('Invalid, user not found')
+  } else {
+    res.status(400).json({ message: 'Invalid password' })
+    throw new Error('Invalid credentials')
+  }
+})
+
+//desc    delete a user
+//route   DELETE /api/users/:id
+//access  private admin
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+
+  if (user) {
+    const id = user.id
+    await user.remove()
+    res.status(200).json({ message: `User ${id} removed` })
+  } else {
+    res.status(404)
+    throw new Error('Invalid, user not found/already deleted')
   }
 })
 
 //desc    login user
-//route   POST /api/user/login
+//route   POST /api/users/login
 //access  public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
@@ -63,8 +130,12 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     })
+  } else if (!user) {
+    res.status(404)
+    throw new Error('Invalid, user not found')
   } else {
     res.status(400)
     throw new Error('Invalid credentials')
@@ -72,15 +143,15 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 //desc    get user data
-//route   GET /api/user/me
+//route   GET /api/users/me
 //access  public
 const getMe = asyncHandler(async (req, res) => {
   //user passed in through protect middleware
   res.status(200).json(req.user)
 })
 
-//desc    setuser address
-//route   POST /api/user/setAddress
+//desc    set user address
+//route   POST /api/users/address
 //access  private
 const setAddress = asyncHandler(async (req, res) => {
   const { label, address1, address2, city, postalCode, country, phone } =
@@ -91,7 +162,7 @@ const setAddress = asyncHandler(async (req, res) => {
     throw new Error('Please add all required fields')
   }
 
-  const user = await User.findOne({ user: req.user.email })
+  const user = await User.findById(req.user._id)
 
   if (user) {
     user.addresses.push({
@@ -109,15 +180,33 @@ const setAddress = asyncHandler(async (req, res) => {
     res.status(201).json(user.id)
   } else {
     res.status(400)
-    throw new Error('Invalid')
+    throw new Error('Invalid, user not found')
+  }
+})
+
+//desc    delete an address
+//route   POST /api/users/address/:id
+//access  private
+const deleteAddress = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    user.addresses.id(req.params.id).remove()
+
+    await user.save()
+
+    res.status(200).json({ message: `Address ${req.params.id} removed` })
+  } else {
+    res.status(400)
+    throw new Error('Invalid, user not found')
   }
 })
 
 //desc    get user addresses
-//route   GET /api/user/getAddresses
+//route   GET /api/users/address
 //access  private
 const getAddresses = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ user: req.user.email })
+  const user = await User.findById(req.user._id)
 
   res.status(200).json(user.addresses)
 })
@@ -127,4 +216,15 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' })
 }
 
-export { registerUser, loginUser, getMe, setAddress, getAddresses }
+export {
+  registerUser,
+  getUser,
+  getUsers,
+  editUser,
+  deleteUser,
+  loginUser,
+  getMe,
+  setAddress,
+  deleteAddress,
+  getAddresses,
+}

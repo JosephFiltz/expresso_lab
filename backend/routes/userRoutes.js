@@ -2,12 +2,18 @@ import express from 'express'
 //import user controller functions
 import {
   registerUser,
+  getUser,
+  getUsers,
+  editUser,
+  deleteUser,
   loginUser,
   getMe,
   setAddress,
+  deleteAddress,
   getAddresses,
 } from '../controllers/userController.js'
-import { protect } from '../middleware/authMiddleware.js'
+//verify JWT when grabbing user data using protect middleware
+import { protect, checkAdmin } from '../middleware/authMiddleware.js'
 
 //routing handler class
 const router = express.Router()
@@ -15,9 +21,14 @@ const router = express.Router()
 //user routes
 router.post('/', registerUser)
 router.post('/login', loginUser)
-//verify JWT when grabbing user data using protect middleware
+router.put('/', protect, editUser)
 router.get('/me', protect, getMe)
-router.post('/setAddress', protect, setAddress)
-router.get('/getAddresses', protect, getAddresses)
+router.post('/address', protect, setAddress)
+router.delete('/address/:id', protect, deleteAddress)
+router.get('/address', protect, getAddresses)
 
+//admin routes
+router.get('/', protect, checkAdmin, getUsers)
+router.get('/:id', protect, checkAdmin, getUser)
+router.delete('/:id', protect, checkAdmin, deleteUser)
 export default router

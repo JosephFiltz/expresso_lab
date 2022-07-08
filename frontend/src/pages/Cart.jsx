@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import CartCard from '../components/CartCard'
@@ -7,7 +7,9 @@ import { resetCart, resetCartParams } from '../features/cart/cartSlice'
 
 const Cart = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
+  const { user } = useSelector((state) => state.auth)
   const { items, isError, message } = useSelector((state) => state.cart)
 
   useEffect(() => {
@@ -15,10 +17,14 @@ const Cart = () => {
       toast.error(message)
     }
 
+    if (!user) {
+      navigate('/')
+    }
+
     return () => {
       dispatch(resetCartParams())
     }
-  }, [isError, message, dispatch])
+  }, [user, isError, message, dispatch])
 
   const DeleteCart = () => {
     dispatch(resetCart())

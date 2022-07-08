@@ -5,6 +5,7 @@ import { FaRegUser } from 'react-icons/fa'
 import { AiOutlineMenu, AiOutlineShopping } from 'react-icons/ai'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, resetAuth } from '../features/authentication/authSlice'
+import { resetCart } from '../features/cart/cartSlice'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -22,6 +23,7 @@ const Header = () => {
   const onLogout = () => {
     dispatch(logout())
     dispatch(resetAuth())
+    dispatch(resetCart())
     navigate('/')
   }
 
