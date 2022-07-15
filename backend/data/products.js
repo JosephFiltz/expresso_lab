@@ -13,6 +13,7 @@ const products = [
     coffeeOrigin: ['ethiopia'],
     size: '12oz',
     stock: 50,
+    isFeatured: true,
   },
   {
     name: 'hello2',
@@ -24,6 +25,7 @@ const products = [
     discount: 0,
     size: '12oz',
     stock: 50,
+    isFeatured: false,
   },
 ]
 

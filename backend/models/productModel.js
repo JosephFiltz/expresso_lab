@@ -77,6 +77,11 @@ const productSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    isFeatured: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true,

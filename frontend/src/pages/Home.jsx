@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import FeaturedProducts from '../components/FeaturedProducts'
 
 const Home = () => {
@@ -9,9 +10,12 @@ const Home = () => {
             Buy My Coffee
           </h1>
           <p className='mt-4 md:text-2xl sm:text-xl text-lg'>We have coffee</p>
-          <btn className='bg-rose-gold text-dark md:text-xl text-lg font-bold rounded-md mx-auto mt-4 md:px-8 px-6 md:py-4 py-2 hover:border-white hover:border-2 hover:bg-dark hover:text-white ease-in-out duration-300 '>
-            Shop Coffee
-          </btn>
+          <Link
+            to='/products'
+            className='bg-rose-gold text-dark md:text-xl text-lg font-bold rounded-md mx-auto mt-4 md:px-8 px-6 md:py-4 py-2 hover:border-white hover:border-2 hover:bg-dark hover:text-white ease-in-out duration-300 '
+          >
+            <btn>Shop Coffee</btn>
+          </Link>
         </div>
       </div>
       <FeaturedProducts />

@@ -24,6 +24,8 @@ const UserDetails = () => {
     (state) => state.auth
   )
 
+  useEffect(() => {}, [dispatch])
+
   useEffect(() => {
     if (!user) {
       navigate('/')
@@ -147,7 +149,7 @@ const UserDetails = () => {
               />
 
               <ul className='flex justify-center items-center gap-2'>
-                <li className='flex justify-center items-center gap-2'>
+                <li>
                   <button
                     type='button'
                     onClick={toggleEdit}
@@ -169,13 +171,15 @@ const UserDetails = () => {
           </section>
         ) : (
           <ul className='flex justify-center items-center gap-2'>
-            <button
-              type='button'
-              onClick={toggleEdit}
-              className='my-8 py-2 w-36 rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
-            >
-              Edit User
-            </button>
+            <li>
+              <button
+                type='button'
+                onClick={toggleEdit}
+                className='my-8 py-2 w-36 rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
+              >
+                Edit User
+              </button>
+            </li>
           </ul>
         )}
       </div>

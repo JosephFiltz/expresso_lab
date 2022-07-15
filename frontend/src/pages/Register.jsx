@@ -26,6 +26,13 @@ const Register = () => {
   )
 
   useEffect(() => {
+    return () => {
+      //reset state
+      dispatch(resetAuth())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     //fire error message if {isError = true} gotten from state
     if (isError) {
       toast.error(message)
@@ -35,9 +42,6 @@ const Register = () => {
     if (isSuccess || user) {
       navigate('/')
     }
-
-    //reset state
-    dispatch(resetAuth())
   }, [user, isError, isSuccess, message, navigate, dispatch])
 
   //allow typing into forms

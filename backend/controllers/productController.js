@@ -5,10 +5,20 @@ import Product from '../models/productModel.js'
 //route   GET /api/products
 //access  public
 const getProducts = asyncHandler(async (req, res) => {
+  const pageNum = 6
+  const page = Number(req.query.page) || 1
+
   //grabs all products from collection into an array
   const products = await Product.find({})
+    .sort({
+      createdAt: -1,
+    })
+    .limit(pageNum)
+    .skip(pageNum * (page - 1))
 
-  res.status(200).json(products)
+  const count = await Product.count({})
+
+  res.status(200).json({ products, page, pageNum: Math.ceil(count / pageNum) })
 })
 
 //desc    get one product
@@ -26,4 +36,15 @@ const getProduct = asyncHandler(async (req, res) => {
   }
 })
 
-export { getProducts, getProduct }
+//desc    get featured products
+//route   GET /api/products/featured
+//access  public
+const getFeaturedProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({ isFeatured: true }).sort({
+    createdAt: -1,
+  })
+
+  res.status(200).json(products)
+})
+
+export { getProducts, getProduct, getFeaturedProducts }

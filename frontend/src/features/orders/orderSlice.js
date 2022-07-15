@@ -4,6 +4,8 @@ import orderService from './orderService.js'
 const initialState = {
   orders: [],
   order: {},
+  page: 1,
+  pageNum: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -37,7 +39,8 @@ export const getUserOrders = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
-      return await orderService.getUserOrders(token)
+      const page = thunkAPI.getState().order.page
+      return await orderService.getUserOrders(page, token)
     } catch (error) {
       const message =
         (error.response &&
@@ -56,7 +59,8 @@ export const getUserIdOrders = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
-      return await orderService.getUserIdOrders(id, token)
+      const page = thunkAPI.getState().order.page
+      return await orderService.getUserIdOrders(page, id, token)
     } catch (error) {
       const message =
         (error.response &&
@@ -76,6 +80,26 @@ export const getOrder = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token
       return await orderService.getOrder(id, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+//admin: get all orders
+export const getOrders = createAsyncThunk(
+  'orders/getOrders',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      const page = thunkAPI.getState().order.page
+      return await orderService.getOrders(page, token)
     } catch (error) {
       const message =
         (error.response &&
@@ -131,6 +155,16 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     resetOrder: (state) => initialState,
+    incrementOrderPage: (state) => {
+      if (state.page < state.pageNum) {
+        state.page = state.page + 1
+      }
+    },
+    decrementOrderPage: (state) => {
+      if (state.page > 1) {
+        state.page = state.page - 1
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -151,7 +185,9 @@ export const orderSlice = createSlice({
       .addCase(getUserOrders.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.orders = action.payload
+        state.orders = action.payload.orders
+        state.page = action.payload.page
+        state.pageNum = action.payload.pageNum
       })
       .addCase(getUserOrders.rejected, (state, action) => {
         state.isLoading = false
@@ -164,7 +200,9 @@ export const orderSlice = createSlice({
       .addCase(getUserIdOrders.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.orders = action.payload
+        state.orders = action.payload.orders
+        state.page = action.payload.page
+        state.pageNum = action.payload.pageNum
       })
       .addCase(getUserIdOrders.rejected, (state, action) => {
         state.isLoading = false
@@ -178,6 +216,21 @@ export const orderSlice = createSlice({
         state.isLoading = false
         state.isSuccess = true
         state.order = action.payload
+      })
+      .addCase(getOrders.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getOrders.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.orders = action.payload.orders
+        state.page = action.payload.page
+        state.pageNum = action.payload.pageNum
+      })
+      .addCase(getOrders.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
       })
       .addCase(getOrder.rejected, (state, action) => {
         state.isLoading = false
@@ -213,6 +266,7 @@ export const orderSlice = createSlice({
   },
 })
 
-export const { resetOrder } = orderSlice.actions
+export const { resetOrder, incrementOrderPage, decrementOrderPage } =
+  orderSlice.actions
 
 export default orderSlice.reducer

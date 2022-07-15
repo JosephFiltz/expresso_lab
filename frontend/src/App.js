@@ -12,6 +12,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import UserDetails from './pages/UserDetails'
+import Products from './pages/Products'
 import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
 import AddressSelection from './pages/AddressSelection'
@@ -22,6 +23,8 @@ import OrderDetails from './pages/OrderDetails'
 import UserOrders from './pages/UserOrders'
 import AdminUserList from './pages/AdminUserList'
 import AdminUserDetails from './pages/AdminUserDetails'
+import AdminOrderList from './pages/AdminOrderList'
+import AdminProductList from './pages/AdminProductList'
 
 function App() {
   return (
@@ -36,6 +39,7 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/user' element={<UserDetails />} />
+              <Route path='/products' element={<Products />} />
               <Route path='/products/:id' element={<ProductPage />} />
               <Route path='/cart' element={<Cart />} />
               <Route path='/addressSelection' element={<AddressSelection />} />
@@ -46,6 +50,8 @@ function App() {
               <Route path='/orders/userOrders' element={<UserOrders />} />
               <Route path='/admin/users' element={<AdminUserList />} />
               <Route path='/admin/users/:id' element={<AdminUserDetails />} />
+              <Route path='/admin/orders' element={<AdminOrderList />} />
+              <Route path='/admin/products' element={<AdminProductList />} />
             </Routes>
             <Footer />
           </ScrollToTop>

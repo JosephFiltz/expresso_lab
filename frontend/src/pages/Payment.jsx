@@ -17,6 +17,12 @@ const Payment = () => {
   )
 
   useEffect(() => {
+    return () => {
+      dispatch(resetCartParams())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
@@ -35,10 +41,6 @@ const Payment = () => {
 
     if (isSuccess) {
       navigate('/checkout')
-    }
-
-    return () => {
-      dispatch(resetCartParams())
     }
   }, [user, address, isError, isSuccess, message, dispatch, navigate])
 

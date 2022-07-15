@@ -25,6 +25,12 @@ const AddressCreation = () => {
   const { isError, isSuccess, message } = useSelector((state) => state.auth)
 
   useEffect(() => {
+    return () => {
+      dispatch(resetAuth())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
@@ -36,10 +42,6 @@ const AddressCreation = () => {
     if (isSuccess) {
       dispatch(resetAuth())
       navigate('/addressSelection')
-    }
-
-    return () => {
-      dispatch(resetAuth())
     }
   }, [isError, message, isSuccess, dispatch, navigate])
 

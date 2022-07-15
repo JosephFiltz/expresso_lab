@@ -89,15 +89,17 @@ const getAddresses = async (token) => {
 }
 
 //admin: get users
-const getUsers = async (token) => {
+const getUsers = async (page, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
 
+  console.log(page)
+
   // /api/users/
-  const response = await axios.get(API_URL, config)
+  const response = await axios.get(API_URL + `?page=${page}`, config)
 
   return response.data
 }

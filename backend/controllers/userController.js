@@ -62,8 +62,17 @@ const getUser = asyncHandler(async (req, res) => {
 //route   GET /api/users
 //access  private admin
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({}).sort({ isAdmin: -1, createdAt: 1 })
-  res.status(200).json(users)
+  const pageNum = 5
+  const page = Number(req.query.page) || 1
+
+  const users = await User.find({})
+    .sort({ isAdmin: -1, createdAt: 1 })
+    .limit(pageNum)
+    .skip(pageNum * (page - 1))
+
+  const count = await User.count({})
+
+  res.status(200).json({ users, page, pageNum: Math.ceil(count / pageNum) })
 })
 
 //desc    edit user
@@ -74,13 +83,19 @@ const editUser = asyncHandler(async (req, res) => {
 
   const user = await User.findById(req.user._id)
 
-  if (user && (await bcrypt.compare(passwordOld, user.password))) {
+  if (
+    user &&
+    (await bcrypt.compare(passwordOld, user.password)) &&
+    passwordOld !== ''
+  ) {
     user.name = username || user.name
     user.email = email || user.email
 
-    const salt = await bcrypt.genSalt()
-    const hashedPassword = await bcrypt.hash(password, salt)
-    user.password = hashedPassword || user.password
+    if (password !== '') {
+      const salt = await bcrypt.genSalt()
+      const hashedPassword = await bcrypt.hash(password, salt)
+      user.password = hashedPassword || user.password
+    }
 
     const savedUser = await user.save()
 
@@ -125,7 +140,11 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email })
 
   //compare form password to user's hashed password
-  if (user && (await bcrypt.compare(password, user.password))) {
+  if (
+    user &&
+    (await bcrypt.compare(password, user.password)) &&
+    password !== ''
+  ) {
     res.json({
       _id: user.id,
       name: user.name,

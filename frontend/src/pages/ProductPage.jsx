@@ -21,16 +21,18 @@ const ProductPage = (history) => {
   const coffeeOrigin = { ...product.coffeeOrigin }
 
   useEffect(() => {
+    return () => {
+      dispatch(resetProduct())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
 
     //get product by id from url
     dispatch(getProduct(params.id))
-
-    return () => {
-      dispatch(resetProduct())
-    }
   }, [isError, message, dispatch])
 
   const addToCartHandler = () => {
@@ -45,7 +47,7 @@ const ProductPage = (history) => {
   return (
     <div className='md:mx-8'>
       <div className='md:mx-auto mt-4 mx-auto bg-white text-dark md:rounded-xl font-montserrat max-w-[1280px]'>
-        <div className='p-8 grid sm:grid-cols-2 gap-8 '>
+        <div className='p-8 grid sm:grid-cols-2 gap-8 break-all '>
           {/*product image*/}
           <div className=''>
             <img
@@ -77,7 +79,7 @@ const ProductPage = (history) => {
                 ${product.price}
               </p>
               {/*description*/}
-              <p>{product.description}</p>
+              <p className=''>{product.description}</p>
             </div>
 
             {/*add to cart functionality*/}

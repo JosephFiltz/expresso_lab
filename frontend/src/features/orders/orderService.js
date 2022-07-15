@@ -17,7 +17,7 @@ const setOrder = async (orderData, token) => {
 }
 
 //get user orders
-const getUserOrders = async (token) => {
+const getUserOrders = async (page, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -25,13 +25,13 @@ const getUserOrders = async (token) => {
   }
 
   // /api/orders/userOrders
-  const response = await axios.get(API_URL + '/userOrders', config)
+  const response = await axios.get(API_URL + `/userOrders?page=${page}`, config)
 
   return response.data
 }
 
 //admin: get a user's orders
-const getUserIdOrders = async (id, token) => {
+const getUserIdOrders = async (page, id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -39,7 +39,10 @@ const getUserIdOrders = async (id, token) => {
   }
 
   // /api/orders/userOrders
-  const response = await axios.get(API_URL + '/userOrders/' + id, config)
+  const response = await axios.get(
+    API_URL + '/userOrders/' + id + `?page=${page}`,
+    config
+  )
 
   return response.data
 }
@@ -54,6 +57,20 @@ const getOrder = async (id, token) => {
 
   // /api/orders/:id
   const response = await axios.get(API_URL + id, config)
+
+  return response.data
+}
+
+//admin: get all orders
+const getOrders = async (page, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  // /api/orders/
+  const response = await axios.get(API_URL + `?page=${page}`, config)
 
   return response.data
 }
@@ -91,6 +108,7 @@ const orderService = {
   getUserOrders,
   getUserIdOrders,
   getOrder,
+  getOrders,
   setOrderPaid,
   setOrderDelivered,
 }

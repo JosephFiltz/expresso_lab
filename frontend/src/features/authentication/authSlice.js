@@ -8,6 +8,8 @@ const initialState = {
   users: [],
   user: user ? user : null,
   addresses: [],
+  page: 1,
+  pageNum: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -153,7 +155,8 @@ export const getUsers = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
-      return await authService.getUsers(token)
+      const page = thunkAPI.getState().auth.page
+      return await authService.getUsers(page, token)
     } catch (error) {
       const message =
         (error.response &&
@@ -202,6 +205,20 @@ export const authSlice = createSlice({
     },
     resetAddress: (state) => {
       state.addresses = []
+    },
+    resetUserPage: (state) => {
+      state.page = 1
+      state.pageNum = null
+    },
+    incrementUserPage: (state) => {
+      if (state.page < state.pageNum) {
+        state.page = state.page + 1
+      }
+    },
+    decrementUserPage: (state) => {
+      if (state.page > 1) {
+        state.page = state.page - 1
+      }
     },
   },
   //async thunk functions go here
@@ -315,7 +332,9 @@ export const authSlice = createSlice({
       .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.users = action.payload
+        state.users = action.payload.users
+        state.page = action.payload.page
+        state.pageNum = action.payload.pageNum
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.isLoading = false
@@ -339,6 +358,13 @@ export const authSlice = createSlice({
 })
 
 //export slice functions(actions)
-export const { resetAuth, resetUserList, resetAddress } = authSlice.actions
+export const {
+  resetAuth,
+  resetUserList,
+  resetAddress,
+  resetUserPage,
+  incrementUserPage,
+  decrementUserPage,
+} = authSlice.actions
 
 export default authSlice.reducer

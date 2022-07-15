@@ -4,14 +4,14 @@ import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   resetOrder,
-  getUserOrders,
+  getOrders,
   incrementOrderPage,
   decrementOrderPage,
 } from '../features/orders/orderSlice'
 import OrderCard from '../components/OrderCard'
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 
-const UserOrders = () => {
+const AdminOrderList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -29,11 +29,11 @@ const UserOrders = () => {
       toast.error(message)
     }
 
-    if (!user) {
+    if (!user || !user.isAdmin) {
       navigate('/')
     }
 
-    dispatch(getUserOrders())
+    dispatch(getOrders())
   }, [user, page, isError, message, dispatch])
 
   const incrementOrderPageHandler = () => {
@@ -79,4 +79,4 @@ const UserOrders = () => {
     </div>
   )
 }
-export default UserOrders
+export default AdminOrderList

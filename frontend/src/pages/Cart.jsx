@@ -13,16 +13,18 @@ const Cart = () => {
   const { items, isError, message } = useSelector((state) => state.cart)
 
   useEffect(() => {
+    return () => {
+      dispatch(resetCartParams())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
 
     if (!user) {
       navigate('/')
-    }
-
-    return () => {
-      dispatch(resetCartParams())
     }
   }, [user, isError, message, dispatch])
 

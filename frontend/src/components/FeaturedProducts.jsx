@@ -1,7 +1,10 @@
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
-import { getProducts, resetProduct } from '../features/products/productSlice'
+import {
+  getFeaturedProducts,
+  resetProduct,
+} from '../features/products/productSlice'
 import ProductCard from './ProductCard'
 
 const FeaturedProducts = () => {
@@ -10,15 +13,17 @@ const FeaturedProducts = () => {
   const { products, isError, message } = useSelector((state) => state.products)
 
   useEffect(() => {
+    return () => {
+      dispatch(resetProduct())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
 
-    dispatch(getProducts())
-
-    return () => {
-      dispatch(resetProduct())
-    }
+    dispatch(getFeaturedProducts())
   }, [isError, message, dispatch])
 
   return (

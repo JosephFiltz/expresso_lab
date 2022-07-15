@@ -3,27 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  getUsers,
-  resetUserList,
-  resetUserPage,
-  incrementUserPage,
-  decrementUserPage,
-} from '../features/authentication/authSlice'
-import UserCard from '../components/UserCard'
+  resetProduct,
+  getProducts,
+  incrementProductPage,
+  decrementProductPage,
+} from '../features/products/productSlice'
+import AdminProductCard from '../components/AdminProductCard'
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 
-const AdminUserList = () => {
+const AdminProductList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { users, user, page, isError, message } = useSelector(
-    (state) => state.auth
-  )
+  const { user, isError, message } = useSelector((state) => state.auth)
+  const { products, page } = useSelector((state) => state.products)
 
   useEffect(() => {
     return () => {
-      dispatch(resetUserList())
-      dispatch(resetUserPage())
+      dispatch(resetProduct())
     }
   }, [dispatch])
 
@@ -36,46 +33,47 @@ const AdminUserList = () => {
       navigate('/')
     }
 
-    dispatch(getUsers())
+    dispatch(getProducts())
   }, [user, page, isError, message, dispatch, navigate])
 
-  const incrementUserPageHandler = () => {
-    dispatch(incrementUserPage())
+  const incrementProductPageHandler = () => {
+    dispatch(incrementProductPage())
   }
 
-  const decrementUserPageHandler = () => {
-    dispatch(decrementUserPage())
+  const decrementProductPageHandler = () => {
+    dispatch(decrementProductPage())
   }
 
   return (
     <div className='md:mx-8'>
       <div className='md:mx-auto my-4 py-4 bg-white md:rounded-xl text-dark max-w-[1280px]'>
         <h1 className='font-logo font-bold italic text-4xl p-4 px-8'>
-          User List
+          Product List
         </h1>
 
-        {users.length > 0 ? (
+        {products.length > 0 ? (
           <div>
-            <div className='md:mx-8 flex justify-between items-center font-bold text-lg gap-2'>
-              <h3 className='w-[40%] text-center'>name</h3>
-              <h3 className='w-[40%] text-center'>email</h3>
-              <h3 className='w-[15%] text-center'>admin</h3>
+            <div className='md:mx-8 flex justify-between items-center font-bold text-lg'>
+              <h3 className='w-[50%] text-center'>product</h3>
+              <h3 className='w-[15%] text-center'>category</h3>
+              <h3 className='w-[20%] text-center'>brand</h3>
+              <h3 className='w-[10%] text-center'>price</h3>
               <div className='w-[5%]'></div>
             </div>
             <div className='md:mx-8 flex flex-col'>
-              {users.map((user) => (
-                <UserCard key={user.id} user={user} />
+              {products.map((product) => (
+                <AdminProductCard key={product.id} product={product} />
               ))}
             </div>
             <ul className='mt-8 flex justify-center items-center gap-2'>
               <li>
-                <button type='button' onClick={decrementUserPageHandler}>
+                <button type='button' onClick={decrementProductPageHandler}>
                   <AiOutlineArrowLeft size={50} />
                 </button>
               </li>
               <li className='text-xl'>{page}</li>
               <li>
-                <button type='button' onClick={incrementUserPageHandler}>
+                <button type='button' onClick={incrementProductPageHandler}>
                   <AiOutlineArrowRight size={50} />
                 </button>
               </li>
@@ -83,11 +81,11 @@ const AdminUserList = () => {
           </div>
         ) : (
           <div className='mx-8 flex justify-center items-center text-4xl'>
-            no users
+            no products
           </div>
         )}
       </div>
     </div>
   )
 }
-export default AdminUserList
+export default AdminProductList

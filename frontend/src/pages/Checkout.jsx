@@ -35,6 +35,12 @@ const Checkout = () => {
   const { isSuccess, isError, message } = useSelector((state) => state.order)
 
   useEffect(() => {
+    return () => {
+      dispatch(resetOrder())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
@@ -59,8 +65,6 @@ const Checkout = () => {
       dispatch(resetCart())
       navigate('/')
     }
-
-    dispatch(resetOrder())
   }, [user, isError, isSuccess, message, dispatch, navigate])
 
   const checkoutOrderHandler = () => {

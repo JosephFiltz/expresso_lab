@@ -4,6 +4,7 @@ import {
   getUserOrders,
   getUserIdOrders,
   getOrder,
+  getOrders,
   setOrderPaid,
   setOrderDelivered,
 } from '../controllers/orderController.js'
@@ -19,6 +20,7 @@ router.put('/:id/pay', protect, setOrderPaid)
 router.put('/:id/deliver', protect, setOrderDelivered)
 
 //admin routes
+router.get('/', protect, checkAdmin, getOrders)
 router.get('/userOrders/:id', protect, checkAdmin, getUserIdOrders)
 
 export default router

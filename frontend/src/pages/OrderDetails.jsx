@@ -23,12 +23,14 @@ const OrderDetails = () => {
   const items = { ...order.items }
 
   useEffect(() => {
+    return () => {
+      dispatch(resetOrder())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
-    }
-
-    if (!user || (!user.isAdmin && user._id !== orderUser._id)) {
-      navigate('/')
     }
 
     //get order by id from url
@@ -36,8 +38,8 @@ const OrderDetails = () => {
       dispatch(getOrder(params.id))
     }
 
-    return () => {
-      dispatch(resetOrder())
+    if (!user) {
+      navigate('/')
     }
   }, [user, isError, message, params, dispatch, navigate])
 

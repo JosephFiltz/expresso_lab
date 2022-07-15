@@ -20,6 +20,14 @@ const AddressSelection = () => {
   const { items, isSuccess } = useSelector((state) => state.cart)
 
   useEffect(() => {
+    return () => {
+      dispatch(resetAuth())
+      dispatch(resetAddress())
+      dispatch(resetCartParams())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
@@ -36,12 +44,6 @@ const AddressSelection = () => {
 
     if (isSuccess) {
       navigate('/payment')
-    }
-
-    return () => {
-      dispatch(resetAuth())
-      dispatch(resetAddress())
-      dispatch(resetCartParams())
     }
   }, [user, items, isError, isSuccess, message, dispatch, navigate])
 

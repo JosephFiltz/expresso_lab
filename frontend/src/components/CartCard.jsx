@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import { FiDelete } from 'react-icons/fi'
 import { deleteFromCart } from '../features/cart/cartSlice'
 
-const CartCard = ({ item, showDelete }) => {
+const CartCard = ({ item }, showDelete) => {
   const dispatch = useDispatch()
 
   const deleteItem = () => {
@@ -17,12 +17,12 @@ const CartCard = ({ item, showDelete }) => {
           alt='no image'
           className='object-cover h-[100%] aspect-square'
         />
-        <div>{item.name}</div>
+        <div className='truncate'>{item.name}</div>
       </div>
 
-      <div className='w-[15%]'>${item.price}</div>
-      <div className='w-[18%]'>{item.qty}</div>
-      <div className='w-[15%]'>
+      <div className='w-[15%] truncate'>${item.price}</div>
+      <div className='w-[18%] truncate'>{item.qty}</div>
+      <div className='w-[15%] truncate'>
         ${(Math.round(item.price * item.qty * 100) / 100).toFixed(2)}
       </div>
 

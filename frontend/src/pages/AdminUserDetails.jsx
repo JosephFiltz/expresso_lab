@@ -1,10 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUser, resetUserList } from '../features/authentication/authSlice'
-import { getUserIdOrders, resetOrder } from '../features/orders/orderSlice'
+import {
+  getUserIdOrders,
+  resetOrder,
+  incrementOrderPage,
+  decrementOrderPage,
+} from '../features/orders/orderSlice'
 import OrderCard from '../components/OrderCard'
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 
 const AdminUserDetails = () => {
   const dispatch = useDispatch()
@@ -12,7 +18,14 @@ const AdminUserDetails = () => {
   const params = useParams()
 
   const { users, user, isError, message } = useSelector((state) => state.auth)
-  const { orders } = useSelector((state) => state.order)
+  const { orders, page } = useSelector((state) => state.order)
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetUserList())
+      dispatch(resetOrder())
+    }
+  }, [dispatch])
 
   useEffect(() => {
     if (isError) {
@@ -24,13 +37,17 @@ const AdminUserDetails = () => {
     }
 
     dispatch(getUser(params.id))
-    dispatch(getUserIdOrders(params.id))
 
-    return () => {
-      dispatch(resetUserList())
-      dispatch(resetOrder())
-    }
-  }, [user, isError, message, params, dispatch, navigate])
+    dispatch(getUserIdOrders(params.id))
+  }, [user, page, isError, message, params, dispatch, navigate])
+
+  const incrementOrderPageHandler = () => {
+    dispatch(incrementOrderPage())
+  }
+
+  const decrementOrderPageHandler = () => {
+    dispatch(decrementOrderPage())
+  }
 
   return (
     <div className='md:mx-8'>
@@ -66,6 +83,19 @@ const AdminUserDetails = () => {
               no orders
             </div>
           )}
+          <ul className='mt-8 flex justify-center items-center gap-2'>
+            <li>
+              <button type='button' onClick={decrementOrderPageHandler}>
+                <AiOutlineArrowLeft size={50} />
+              </button>
+            </li>
+            <li className='text-xl'>{page}</li>
+            <li>
+              <button type='button' onClick={incrementOrderPageHandler}>
+                <AiOutlineArrowRight size={50} />
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

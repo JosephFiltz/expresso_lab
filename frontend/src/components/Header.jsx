@@ -56,13 +56,35 @@ const Header = () => {
             <button onClick={toggleNav} className='p-8'>
               <AiOutlineMenu size={25}></AiOutlineMenu>
             </button>
-            <ul className='pt-20 text-xl p-4 '>
-              <li className='p-4 border-b border-b-white'>hello</li>
-              <li className='p-4 border-b border-b-white'>hello</li>
-              <li className='p-4 border-b border-b-white'>hello</li>
-              <li className='p-4 border-b border-b-white'>hello</li>
-              <li className='p-4 border-b border-b-white'>hello</li>
+            <ul className='pt-10 text-xl p-4 '>
+              <Link to='/products'>
+                <li className='p-4 border-b border-b-white'>Products</li>
+              </Link>
+              {user && (
+                <Link to='/user'>
+                  <li className='p-4 border-b border-b-white'>User</li>
+                </Link>
+              )}
+              {user && (
+                <Link to='/orders/userOrders'>
+                  <li className='p-4 border-b border-b-white'>Orders</li>
+                </Link>
+              )}
             </ul>
+            {user && user.isAdmin && (
+              <ul className='pt-4 text-xl p-4 '>
+                <li className='p-4 text-2xl font-logo'>Admin</li>
+                <Link to='/admin/users'>
+                  <li className='p-4 border-b border-b-white'>User List</li>
+                </Link>
+                <Link to='/admin/orders'>
+                  <li className='p-4 border-b border-b-white'>Order List</li>
+                </Link>
+                <Link to='/admin/products'>
+                  <li className='p-4 border-b border-b-white'>Product List</li>
+                </Link>
+              </ul>
+            )}
           </div>
         </div>
         <Link
