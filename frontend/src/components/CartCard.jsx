@@ -20,7 +20,9 @@ const CartCard = ({ item }, showDelete) => {
         <div className='truncate'>{item.name}</div>
       </div>
 
-      <div className='w-[15%] truncate'>${item.price}</div>
+      <div className='w-[15%] truncate'>
+        ${(Math.round(item.price * 100) / 100).toFixed(2)}
+      </div>
       <div className='w-[18%] truncate'>{item.qty}</div>
       <div className='w-[15%] truncate'>
         ${(Math.round(item.price * item.qty * 100) / 100).toFixed(2)}

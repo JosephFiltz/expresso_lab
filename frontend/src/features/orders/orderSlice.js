@@ -9,8 +9,6 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  deliveredSuccess: false,
-  deliveredLoading: false,
   message: '',
 }
 

@@ -17,7 +17,7 @@ export const getProducts = createAsyncThunk(
   'products/getProducts',
   async (_, thunkAPI) => {
     try {
-      const page = thunkAPI.getState().order.page
+      const page = thunkAPI.getState().products.page
       return await productService.getProducts(page)
     } catch (error) {
       const message =

@@ -29,7 +29,7 @@ const Products = () => {
     }
 
     dispatch(getProducts())
-  }, [isError, page, message, dispatch])
+  }, [page, isError, message, dispatch])
 
   const incrementProductPageHandler = () => {
     dispatch(incrementProductPage())

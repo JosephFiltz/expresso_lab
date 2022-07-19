@@ -11,7 +11,7 @@ const getProducts = asyncHandler(async (req, res) => {
   //grabs all products from collection into an array
   const products = await Product.find({})
     .sort({
-      createdAt: -1,
+      _id: -1,
     })
     .limit(pageNum)
     .skip(pageNum * (page - 1))

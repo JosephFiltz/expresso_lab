@@ -14,12 +14,10 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    image: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    image: {
+      type: String,
+      required: true,
+    },
     category: {
       type: String,
       required: true,
@@ -35,12 +33,6 @@ const productSchema = mongoose.Schema(
     price: {
       type: Number,
       required: true,
-    },
-    //final price: price * (1 - discount)
-    discount: {
-      type: Number,
-      required: true,
-      default: 0,
     },
     tastingNotes: [
       {
@@ -61,16 +53,10 @@ const productSchema = mongoose.Schema(
         default: null,
       },
     ],
-    coffeeOrigin: [
-      {
-        type: String,
-        required: false,
-        default: null,
-      },
-    ],
-    size: {
+    coffeeOrigin: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
     },
     stock: {
       type: Number,

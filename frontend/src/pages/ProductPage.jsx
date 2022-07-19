@@ -15,10 +15,8 @@ const ProductPage = (history) => {
   const { product, isError, message } = useSelector((state) => state.products)
 
   //grab arrays from json
-  const image = { ...product.image }
   const tastingNotes = { ...product.tastingNotes }
   const coffeeProcess = { ...product.coffeeProcess }
-  const coffeeOrigin = { ...product.coffeeOrigin }
 
   useEffect(() => {
     return () => {
@@ -47,11 +45,11 @@ const ProductPage = (history) => {
   return (
     <div className='md:mx-8'>
       <div className='md:mx-auto mt-4 mx-auto bg-white text-dark md:rounded-xl font-montserrat max-w-[1280px]'>
-        <div className='p-8 grid sm:grid-cols-2 gap-8 break-all '>
+        <div className='p-8 grid sm:grid-cols-2 gap-8 break-words '>
           {/*product image*/}
           <div className=''>
             <img
-              src={image[0]}
+              src={product.image}
               alt='no image'
               className='object-contain h-[100%] w-[100%] aspect-square'
             />
@@ -65,18 +63,11 @@ const ProductPage = (history) => {
                 </h1>
                 {product.name}
               </h1>
-              {/*mapping through coffee origin(s)*/}
-              {Object.keys(coffeeOrigin).length ? (
-                <div className='mb-4 lg:text-lg'>
-                  {Object.entries(coffeeOrigin).map(([key, value], i) => (
-                    //span elements and comma delimited if index(i) not 0
-                    <span key={i}>{(i ? ', ' : '') + value}</span>
-                  ))}
-                </div>
-              ) : null}
+              {/*coffee origins*/}
+              <div className='mb-4 lg:text-lg'>{product.coffeeOrigin}</div>
               {/*price*/}
               <p className='text-rose-gold font-bold text-4xl lg:text-5xl mb-4 lg:mb-8'>
-                ${product.price}
+                ${(Math.round(product.price * 100) / 100).toFixed(2)}
               </p>
               {/*description*/}
               <p className=''>{product.description}</p>
