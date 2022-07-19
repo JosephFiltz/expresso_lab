@@ -2,10 +2,10 @@ import { useDispatch } from 'react-redux'
 import { FiDelete } from 'react-icons/fi'
 import { deleteFromCart } from '../features/cart/cartSlice'
 
-const CartCard = ({ item }, showDelete) => {
+const CartCard = ({ item, showDelete }) => {
   const dispatch = useDispatch()
 
-  const deleteItem = () => {
+  const deleteItemHandler = () => {
     dispatch(deleteFromCart(item.id))
   }
 
@@ -29,7 +29,7 @@ const CartCard = ({ item }, showDelete) => {
       </div>
 
       {showDelete ? (
-        <button type='button' onClick={deleteItem} className='w-[2%]'>
+        <button type='button' onClick={deleteItemHandler} className='w-[2%]'>
           <FiDelete size={25} />
         </button>
       ) : null}

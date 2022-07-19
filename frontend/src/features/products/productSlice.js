@@ -67,6 +67,25 @@ export const getFeaturedProducts = createAsyncThunk(
   }
 )
 
+//admin: delete product
+export const deleteProduct = createAsyncThunk(
+  'auth/deleteProduct',
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await productService.deleteProduct(id, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 export const productSlice = createSlice({
   name: 'product',
   initialState,
@@ -115,7 +134,6 @@ export const productSlice = createSlice({
         state.isError = true
         state.message = action.payload
       })
-      //get
       .addCase(getFeaturedProducts.pending, (state) => {
         state.isLoading = true
       })
@@ -125,6 +143,19 @@ export const productSlice = createSlice({
         state.products = action.payload
       })
       .addCase(getFeaturedProducts.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.message = action.payload
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

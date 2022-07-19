@@ -1,7 +1,7 @@
 const products = [
   {
     name: 'Apollo',
-    image: 'placeholder',
+    image: '/images/apollo.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -16,7 +16,7 @@ const products = [
   },
   {
     name: 'Big Trouble',
-    image: 'placeholder',
+    image: '/images/big-trouble.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -31,7 +31,7 @@ const products = [
   },
   {
     name: 'Cinco de Junio',
-    image: 'placeholder',
+    image: '/images/cinco-de-junio.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -46,7 +46,7 @@ const products = [
   },
   {
     name: 'Decaf Urcunina',
-    image: 'placeholder',
+    image: '/images/urcunina.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -61,7 +61,7 @@ const products = [
   },
   {
     name: 'Fast Forward',
-    image: 'placeholder',
+    image: '/images/fast-forward.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -77,7 +77,7 @@ const products = [
   },
   {
     name: 'Finca El Puente',
-    image: 'placeholder',
+    image: '/images/finca-el-puente.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -92,7 +92,7 @@ const products = [
   },
   {
     name: 'Forty-Six',
-    image: 'placeholder',
+    image: '/images/forty-six.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -108,7 +108,7 @@ const products = [
   },
   {
     name: 'Gradient',
-    image: 'placeholder',
+    image: '/images/gradient.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -123,7 +123,7 @@ const products = [
   },
   {
     name: 'Hologram',
-    image: 'placeholder',
+    image: '/images/hologram.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:
@@ -139,7 +139,7 @@ const products = [
   },
   {
     name: 'Perennial',
-    image: 'placeholder',
+    image: '/images/perennial.jpg',
     category: 'coffee',
     brand: 'Counter Culture',
     description:

@@ -18,7 +18,6 @@ import { protect, checkAdmin } from '../middleware/authMiddleware.js'
 //routing handler class
 const router = express.Router()
 
-//user routes
 router.post('/', registerUser)
 router.post('/login', loginUser)
 router.put('/', protect, editUser)

@@ -26,10 +26,25 @@ const getFeaturedProducts = async () => {
   return response.data
 }
 
+//admin: delete product
+const deleteProduct = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  // /api/products/:id
+  const response = await axios.delete(API_URL + id, config)
+
+  return response.data
+}
+
 const productService = {
   getProducts,
   getProduct,
   getFeaturedProducts,
+  deleteProduct,
 }
 
 export default productService

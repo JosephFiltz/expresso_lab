@@ -34,7 +34,7 @@ const AdminProductList = () => {
     }
 
     dispatch(getProducts())
-  }, [user, page, isError, message, dispatch, navigate])
+  }, [user, page, products, isError, message, dispatch, navigate])
 
   const incrementProductPageHandler = () => {
     dispatch(incrementProductPage())
