@@ -40,9 +40,10 @@ const Payment = () => {
     }
 
     if (isSuccess) {
+      dispatch(resetCartParams())
       navigate('/checkout')
     }
-  }, [user, address, isError, isSuccess, message, dispatch, navigate])
+  }, [user, items, address, isError, isSuccess, message, dispatch, navigate])
 
   const onChange = (e) => {
     setPaymentMethod(e.target.value)
@@ -68,17 +69,6 @@ const Payment = () => {
           <label className='flex justify-center items-center gap-1 text-xl'>
             <input
               type='radio'
-              id='paypal'
-              name='paypal'
-              value='paypal'
-              onChange={onChange}
-              checked={paymentMethod === 'paypal'}
-            />
-            Paypal
-          </label>
-          <label className='flex justify-center items-center gap-1 text-xl'>
-            <input
-              type='radio'
               id='stripe'
               name='stripe'
               value='stripe'
@@ -86,6 +76,17 @@ const Payment = () => {
               checked={paymentMethod === 'stripe'}
             />
             Stripe
+          </label>
+          <label className='flex justify-center items-center gap-1 text-xl'>
+            <input
+              type='radio'
+              id='other'
+              name='other'
+              value='other'
+              onChange={onChange}
+              checked={paymentMethod === 'other'}
+            />
+            Other (Payment confirmed by admin)
           </label>
           <button
             type='submit'

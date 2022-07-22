@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { deleteAddress } from '../features/authentication/authSlice'
 import { selectAddress } from '../features/cart/cartSlice'

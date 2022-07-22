@@ -11,7 +11,7 @@ const getProducts = asyncHandler(async (req, res) => {
   //grabs all products from collection into an array
   const products = await Product.find({})
     .sort({
-      _id: -1,
+      _id: 1,
     })
     .limit(pageNum)
     .skip(pageNum * (page - 1))
@@ -41,7 +41,7 @@ const getProduct = asyncHandler(async (req, res) => {
 //access  public
 const getFeaturedProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({ isFeatured: true }).sort({
-    _id: -1,
+    _id: 1,
   })
 
   res.status(200).json(products)

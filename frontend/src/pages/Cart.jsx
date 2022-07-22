@@ -26,7 +26,7 @@ const Cart = () => {
     if (!user) {
       navigate('/')
     }
-  }, [user, isError, message, dispatch])
+  }, [user, isError, message, dispatch, navigate])
 
   const DeleteCart = () => {
     dispatch(resetCart())

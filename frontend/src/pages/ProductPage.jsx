@@ -1,11 +1,11 @@
-import { useState, useEffect, Component } from 'react'
+import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getProduct, resetProduct } from '../features/products/productSlice'
 import { addToCart } from '../features/cart/cartSlice'
 
-const ProductPage = (history) => {
+const ProductPage = () => {
   const dispatch = useDispatch()
   const params = useParams()
 
@@ -31,7 +31,7 @@ const ProductPage = (history) => {
 
     //get product by id from url
     dispatch(getProduct(params.id))
-  }, [isError, message, dispatch])
+  }, [isError, message, params, dispatch])
 
   const addToCartHandler = () => {
     const data = {
@@ -58,9 +58,9 @@ const ProductPage = (history) => {
             <div>
               {/*product brand & name*/}
               <h1 className='font-logo font-bold italic text-4xl lg:text-5xl py-4 pb-2'>
-                <h1 className='text-xl lg:text-2xl text-gray'>
+                <div className='text-xl lg:text-2xl text-gray'>
                   {product.brand}
-                </h1>
+                </div>
                 {product.name}
               </h1>
               {/*coffee origins*/}

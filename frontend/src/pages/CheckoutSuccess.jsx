@@ -1,19 +1,18 @@
 import { useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  getOrder,
+  getNewestOrder,
   resetOrder,
   setOrderPaid,
-  setOrderDelivered,
 } from '../features/orders/orderSlice'
+import { resetCart } from '../features/cart/cartSlice'
 import CartCard from '../components/CartCard'
 
-const OrderDetails = () => {
+const CheckoutSuccess = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const params = useParams()
 
   const { user } = useSelector((state) => state.auth)
   const { order, isError, message } = useSelector((state) => state.order)
@@ -25,6 +24,7 @@ const OrderDetails = () => {
   useEffect(() => {
     return () => {
       dispatch(resetOrder())
+      dispatch(resetCart())
     }
   }, [dispatch])
 
@@ -35,27 +35,23 @@ const OrderDetails = () => {
 
     //get order by id from url
     if (!Object.keys(order).length) {
-      dispatch(getOrder(params.id))
+      dispatch(getNewestOrder())
+    }
+
+    if (!order.isPaid && order.payment === 'stripe') {
+      dispatch(setOrderPaid(order._id))
     }
 
     if (!user) {
       navigate('/')
     }
-  }, [user, isError, message, params, order, dispatch, navigate])
-
-  const setOrderPaidHandler = () => {
-    dispatch(setOrderPaid(params.id))
-  }
-
-  const setOrderDeliveredHandler = () => {
-    dispatch(setOrderDelivered(params.id))
-  }
+  }, [user, isError, message, order, dispatch, navigate])
 
   return (
     <div className='md:mx-8'>
       <div className='md:mx-auto my-4 py-4 bg-white md:rounded-xl text-dark max-w-[1280px]'>
-        <h1 className='font-logo font-bold italic text-auto text-xl md:text-4xl p-4 px-8'>
-          Order {params.id}
+        <h1 className='font-logo font-bold italic text-4xl p-4 px-8'>
+          Your Order is in!
         </h1>
 
         {/*User*/}
@@ -75,15 +71,6 @@ const OrderDetails = () => {
           <div>{address.postalCode}</div>
           <div>{address.country}</div>
           <div>{address.phone}</div>
-          {order.isDelivered ? (
-            <div className='mt-4 py-2 w-[50%] rounded-md bg-rose-gold font-bold text-lg text-center'>
-              Delivered
-            </div>
-          ) : (
-            <div className='mt-4 py-2 w-[50%] rounded-md bg-dark text-white font-bold text-lg text-center'>
-              Not Delivered
-            </div>
-          )}
         </div>
         {/*Payment Method*/}
         <div className='flex flex-col justify-center items-center py-8 border-b-2'>
@@ -91,15 +78,6 @@ const OrderDetails = () => {
             Payment Method
           </div>
           <div className='text-xl'>{order.payment}</div>
-          {order.isPaid ? (
-            <div className='mt-4 py-2 w-[50%] rounded-md bg-rose-gold font-bold text-lg text-center'>
-              Paid
-            </div>
-          ) : (
-            <div className='mt-4 py-2 w-[50%] rounded-md bg-dark text-white font-bold text-lg text-center'>
-              Not Paid
-            </div>
-          )}
         </div>
         {/*Products*/}
         <div className='py-8 border-b-2'>
@@ -132,35 +110,8 @@ const OrderDetails = () => {
             </div>
           </div>
         </div>
-        {/*Admin Controls*/}
-        {user && user.isAdmin && (
-          <ul className='flex justify-center items-center gap-8'>
-            {!order.isPaid && (
-              <li>
-                <button
-                  type='button'
-                  onClick={setOrderPaidHandler}
-                  className='my-8 py-2 w-36 rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
-                >
-                  Set Paid
-                </button>
-              </li>
-            )}
-            {!order.isDelivered && (
-              <li>
-                <button
-                  type='button'
-                  onClick={setOrderDeliveredHandler}
-                  className='my-8 py-2 w-36 rounded-md bg-dark border-dark border text-white font-bold text-xl hover:bg-white hover:text-dark ease-in-out duration-300'
-                >
-                  Set Delivered
-                </button>
-              </li>
-            )}
-          </ul>
-        )}
       </div>
     </div>
   )
 }
-export default OrderDetails
+export default CheckoutSuccess

@@ -43,6 +43,7 @@ const AddressSelection = () => {
     dispatch(getAddresses())
 
     if (isSuccess) {
+      dispatch(resetCartParams())
       navigate('/payment')
     }
   }, [user, items, isError, isSuccess, message, dispatch, navigate])

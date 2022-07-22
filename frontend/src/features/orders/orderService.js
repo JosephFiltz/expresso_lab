@@ -61,6 +61,20 @@ const getOrder = async (id, token) => {
   return response.data
 }
 
+//get one order by id
+const getNewestOrder = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  // /api/orders/new
+  const response = await axios.get(API_URL + 'new', config)
+
+  return response.data
+}
+
 //admin: get all orders
 const getOrders = async (page, token) => {
   const config = {
@@ -108,6 +122,7 @@ const orderService = {
   getUserOrders,
   getUserIdOrders,
   getOrder,
+  getNewestOrder,
   getOrders,
   setOrderPaid,
   setOrderDelivered,

@@ -22,7 +22,7 @@ const AdminOrderList = () => {
     return () => {
       dispatch(resetOrder())
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (isError) {
@@ -34,7 +34,7 @@ const AdminOrderList = () => {
     }
 
     dispatch(getOrders())
-  }, [user, page, isError, message, dispatch])
+  }, [user, page, isError, message, dispatch, navigate])
 
   const incrementOrderPageHandler = () => {
     dispatch(incrementOrderPage())

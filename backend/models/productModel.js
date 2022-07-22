@@ -68,6 +68,11 @@ const productSchema = mongoose.Schema(
       required: false,
       default: false,
     },
+    stripePrice: {
+      type: String,
+      required: true,
+      default: null,
+    },
   },
   {
     timestamps: true,

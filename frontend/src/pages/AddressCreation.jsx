@@ -43,7 +43,7 @@ const AddressCreation = () => {
       dispatch(resetAuth())
       navigate('/addressSelection')
     }
-  }, [isError, message, isSuccess, dispatch, navigate])
+  }, [user, isError, message, isSuccess, dispatch, navigate])
 
   //allow typing into forms
   const onChange = (e) => {

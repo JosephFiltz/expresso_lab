@@ -40,6 +40,7 @@ export const addToCart = createAsyncThunk(
         price: product.price,
         stock: product.stock,
         qty: quantity,
+        stripePriceId: product.stripePrice,
       }
 
       const itemExists = thunkAPI

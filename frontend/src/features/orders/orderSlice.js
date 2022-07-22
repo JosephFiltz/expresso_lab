@@ -90,6 +90,25 @@ export const getOrder = createAsyncThunk(
   }
 )
 
+//get newest order
+export const getNewestOrder = createAsyncThunk(
+  'orders/getNewestOrder',
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await orderService.getNewestOrder(id, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 //admin: get all orders
 export const getOrders = createAsyncThunk(
   'orders/getOrders',
@@ -215,6 +234,24 @@ export const orderSlice = createSlice({
         state.isSuccess = true
         state.order = action.payload
       })
+      .addCase(getOrder.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(getNewestOrder.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getNewestOrder.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.order = action.payload
+      })
+      .addCase(getNewestOrder.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
       .addCase(getOrders.pending, (state) => {
         state.isLoading = true
       })
@@ -226,11 +263,6 @@ export const orderSlice = createSlice({
         state.pageNum = action.payload.pageNum
       })
       .addCase(getOrders.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-      })
-      .addCase(getOrder.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

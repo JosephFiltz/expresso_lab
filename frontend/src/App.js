@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ScrollToTop from './misc/ScrollToTop'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+//stripe payment package
+import '@stripe/stripe-js'
 //import components
 import Header from './components/Header'
 import Navbar from './components/Navbar'
@@ -19,6 +21,7 @@ import AddressSelection from './pages/AddressSelection'
 import AddressCreation from './pages/AddressCreation'
 import Payment from './pages/Payment'
 import Checkout from './pages/Checkout'
+import CheckoutSuccess from './pages/CheckoutSuccess'
 import OrderDetails from './pages/OrderDetails'
 import UserOrders from './pages/UserOrders'
 import AdminUserList from './pages/AdminUserList'
@@ -46,6 +49,7 @@ function App() {
               <Route path='/addressCreation' element={<AddressCreation />} />
               <Route path='/payment' element={<Payment />} />
               <Route path='/checkout' element={<Checkout />} />
+              <Route path='/checkoutSuccess' element={<CheckoutSuccess />} />
               <Route path='/orders/:id' element={<OrderDetails />} />
               <Route path='/orders/userOrders' element={<UserOrders />} />
               <Route path='/admin/users' element={<AdminUserList />} />

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  resetCart,
   setItemsPrice,
   setShippingPrice,
   setTaxPrice,
@@ -11,6 +10,15 @@ import {
 } from '../features/cart/cartSlice'
 import { setOrder, resetOrder } from '../features/orders/orderSlice'
 import CartCard from '../components/CartCard'
+import { loadStripe } from '@stripe/stripe-js'
+
+let stripePromise
+const stripeHandler = () => {
+  if (!stripePromise) {
+    stripePromise = loadStripe(process.env.REACT_APP_STRIPE)
+  }
+  return stripePromise
+}
 
 const Checkout = () => {
   const dispatch = useDispatch()
@@ -61,11 +69,50 @@ const Checkout = () => {
       navigate('/payment')
     }
 
-    if (isSuccess) {
-      dispatch(resetCart())
-      navigate('/')
+    if (isSuccess && payment === 'stripe') {
+      redirectToStripe()
+    } else if (isSuccess) {
+      navigate('/checkoutSuccess')
     }
-  }, [user, isError, isSuccess, message, dispatch, navigate])
+  }, [
+    user,
+    isError,
+    isSuccess,
+    message,
+    address,
+    items,
+    payment,
+    dispatch,
+    navigate,
+  ])
+
+  const redirectToStripe = async () => {
+    //create stripe listItems from cart
+    let stripeItems = []
+    for (const stripeItem of items) {
+      stripeItems.push({
+        price: stripeItem.stripePriceId,
+        quantity: Number(stripeItem.qty),
+      })
+    }
+
+    //flat rate shipping as an appended product
+    const stripeShipping = {
+      price: 'price_1LNWYbKKrB8Gu3W6bIwTF8hY',
+      quantity: 1,
+    }
+
+    const checkoutOptions = {
+      lineItems: [...stripeItems, stripeShipping],
+      mode: 'payment',
+      successUrl: `${window.location.origin}/checkoutSuccess`,
+      cancelUrl: `${window.location.origin}/cart`,
+    }
+
+    const stripe = await stripeHandler()
+    const { error } = await stripe.redirectToCheckout(checkoutOptions)
+    toast.error(`Stripe error: ${error}`)
+  }
 
   const checkoutOrderHandler = () => {
     const data = {

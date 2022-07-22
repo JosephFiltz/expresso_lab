@@ -104,6 +104,25 @@ const getOrder = asyncHandler(async (req, res) => {
   }
 })
 
+//desc    get newest order
+//route   GET /api/orders/newest
+//access  private
+const getNewestOrder = asyncHandler(async (req, res) => {
+  //grab order by matching _id
+  const order = await Order.findOne(req.params.id)
+    .sort({
+      createdAt: -1,
+    })
+    .populate('user', 'name email')
+
+  if (order) {
+    res.status(200).json(order)
+  } else {
+    res.status(404)
+    throw new error('Order not found')
+  }
+})
+
 //desc    get all orders
 //route   GET /api/orders/userOrders
 //access  private admin
@@ -168,6 +187,7 @@ export {
   getUserOrders,
   getUserIdOrders,
   getOrder,
+  getNewestOrder,
   getOrders,
   setOrderPaid,
   setOrderDelivered,

@@ -12,7 +12,7 @@ const products = [
     coffeeProcess: ['Washed'],
     coffeeOrigin: 'Blend Components: 100% Allona, Ethiopia',
     stock: 100,
-    isFeatured: false,
+    isFeatured: true,
   },
   {
     name: 'Big Trouble',
@@ -150,7 +150,7 @@ const products = [
     coffeeProcess: ['Washed'],
     coffeeOrigin: 'Blend Components: 100% La Victoria, Nicaragua',
     stock: 100,
-    isFeatured: false,
+    isFeatured: true,
   },
 ]
 
